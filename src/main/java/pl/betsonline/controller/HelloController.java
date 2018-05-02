@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import pl.betsonline.web.CountryDto;
 import pl.betsonline.web.LeagueDto;
+import pl.betsonline.web.MatchDto;
 import pl.betsonline.web.TeamDto;
 
 @RestController
@@ -48,4 +49,19 @@ public class HelloController {
         for (TeamDto team: teams) {logger.info("teams {}", team);}
         return "some result - teams";
     }
+
+
+    @RequestMapping("/get-match")
+    public String getMatchAction() {
+        String url = "https://apifootball.com/api/?action=get_events&from=2016-10-30&to=2016-11-01&league_id=63&APIkey=c4e29ebddc8c975cfd056599e5421d65d34ea41eab067765b95e776416e59cb6";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<MatchDto[]> responseMatch = restTemplate.getForEntity(
+                url, MatchDto[].class);
+        MatchDto[] matches = responseMatch.getBody();
+        for (MatchDto match : matches) {
+            logger.info("matches {}", match);
+        }
+        return "some result - match";
+    }
+
 }
