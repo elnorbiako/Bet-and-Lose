@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import pl.betsonline.web.CountryDto;
-import pl.betsonline.web.LeagueDto;
-import pl.betsonline.web.MatchDto;
-import pl.betsonline.web.TeamDto;
+import pl.betsonline.web.*;
 
 @RestController
 public class HelloController {
@@ -62,6 +59,19 @@ public class HelloController {
             logger.info("matches {}", match);
         }
         return "some result - match";
+    }
+
+    @RequestMapping("/get-user")
+    public String getUserAction() {
+        String url = "http://localhost:8080/api/fake-users";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<UserDto[]> responseUser = restTemplate.getForEntity(
+                url, UserDto[].class);
+        UserDto[] users = responseUser.getBody();
+        for (UserDto user : users) {
+            logger.info("users {}", user);
+        }
+        return "some result - user";
     }
 
 }
