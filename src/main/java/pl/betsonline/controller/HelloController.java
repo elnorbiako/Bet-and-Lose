@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import pl.betsonline.dao.UserDao;
 import pl.betsonline.web.*;
 
 @RestController
@@ -70,6 +71,7 @@ public class HelloController {
         UserDto[] users = responseUser.getBody();
         for (UserDto user : users) {
             logger.info("users {}", user);
+            UserDao.add(user);
         }
         return "some result - user";
     }
